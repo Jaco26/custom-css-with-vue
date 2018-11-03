@@ -2,9 +2,16 @@
   <div id="app">
     <app-navbar></app-navbar>
     <app-side-nav :show-if="showSideNav"></app-side-nav>
-    <div ref="main">
-      <button @click="showSideNav = !showSideNav">Toggle Sidenav</button>
-    </div>
+    <transition name="main">
+      <div ref="main" class="row tc">
+        <div class="f1">
+          <button @click="showSideNav = !showSideNav">Toggle Sidenav</button>
+          <router-view></router-view>
+        </div>
+        
+      </div>
+    </transition>
+    
   </div>
 </template>
 
@@ -19,9 +26,9 @@ export default {
   },
   data() {
     return {
-      showSideNav: false,
+      showSideNav: true,
     }
-  }
+  },
 }
 </script>
 
@@ -30,15 +37,47 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  /* margin-top: 60px; */
 }
 
-/* #main {
-  transition: margin-left .5s;
-  padding: 16px;
-} */
+.active-link {
+  color: #efefef;
+}
 
+.tc {
+  text-align: center;
+}
+
+.ts {
+  text-align: start;
+}
+
+.te {
+  text-align: end;
+}
+
+.row {
+  display: flex;
+}
+
+.f1 {
+  flex: 1;
+}
+
+.f2 {
+  flex: 2;
+}
+
+.f3 {
+  flex: 3;
+}
+
+.f4 {
+  flex: 4;
+}
+
+.f5 {
+  flex: 5;
+}
 
 </style>
