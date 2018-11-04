@@ -1,28 +1,22 @@
 <template>
   <div id="app">
     <app-navbar></app-navbar>
-    <app-side-nav :show-if="showSideNav"></app-side-nav>
-    <transition name="main">
-      <div ref="main" class="row tc">
-        <div class="f1">
-          <button @click="showSideNav = !showSideNav">Toggle Sidenav</button>
+    <div class="container">
+      <div class="row">
+        <div class="f1 ">
           <router-view></router-view>
         </div>
-        
       </div>
-    </transition>
-    
+    </div>
   </div>
 </template>
 
 <script>
-import appSideNav from './components/SideNav.vue'
 import appNavbar from './components/Navbar.vue'
 export default {
   name: 'app',
   components: {
-    appSideNav,
-    appNavbar
+    appNavbar,
   },
   data() {
     return {
@@ -56,8 +50,17 @@ export default {
   text-align: end;
 }
 
+.container {
+  display: block;
+  padding: 60px;
+}
+
 .row {
   display: flex;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }
 
 .f1 {
@@ -79,5 +82,22 @@ export default {
 .f5 {
   flex: 5;
 }
+
+ .main-content-adjust-enter-active {
+    animation: main-content-adjust 0.5s ease-in-out normal;
+  }
+
+  .main-content-adjust-leave-active {
+    animation: main-content-adjust 0.5s ease-in-out reverse;
+  }
+
+  @keyframes main-content-adjust {
+    from {
+      left: 0;
+    }
+    to {
+      left: 200px;
+    }
+  }
 
 </style>
