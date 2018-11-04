@@ -5,12 +5,37 @@ import todos from './todo'
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+function wrap(mod) {
+  const wrapped = Object.assign({
+    namespaced: true,
+    state: {},
+    mutations: {
+      setState,
+    },
+    actions: {},
+    getters: {},
+    modules: {},
+  }, mod);
+
+  wrapped.modules = wrapModules(wrapped.modules);
+
+  return wrapped;
+}
+
+function wrapModules(mods) {
+  return Object.keys(mods).reduce((wrappedMods, name) => {
+    wrappedMods[name] = wrap(mods[name]);
+    return wrappedMods;
+  }, {});
+}
+
+
+export const store = new Vuex.Store(wrap({
   strict: process.env.NODE_ENV !== 'production',
   modules: {
     todos,
   }
-});
+}));
 
 function reduceNamespace(namespace, key) {
   let mockState = store.state;
@@ -31,5 +56,13 @@ export function bindState(namespace, items) {
 };
 
 export function setState(state, { key, data }) {  
-  state[key] = data;
+  let stateCopy = state;
+  stateCopy = key.split('.').reduce((a, b, i, arr) => {
+    if (i === arr.length - 1) {
+      stateCopy[b] = data;
+    } else {
+      stateCopy = stateCopy[b];
+    }
+    return stateCopy;
+  }, stateCopy);
 }

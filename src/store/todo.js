@@ -1,17 +1,26 @@
-import { setState } from './index'
+
+const deeper2 = {
+  state: {
+    thingThing: 'thing',
+  },
+}
+
+const deeper1 = {
+  modules: {
+    deeper2
+  }
+}
 
 const level1 = {
-  namespaced: true,
   state: {
     level2: 'asdf',
   },
-  mutations: {
-    setState,
+  modules: {
+    deeper1,
   }
 }
 
 export default {
-  namespaced: true,
   state: {
     description: 'Hello',
     date: null,
@@ -19,8 +28,4 @@ export default {
   modules: {
     level1
   },
-  mutations: {
-    setState,
-  }
-
 }
